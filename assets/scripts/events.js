@@ -28,6 +28,36 @@ const setIndex = function (id) {
   return index
 }
 
+const didIWin = function (currentPlayer) {
+  if (board[0] === currentPlayer && board[1] === currentPlayer && board[2] === currentPlayer) {
+    $('.message').html('Player ' + currentPlayer + ' wins!')
+    return true
+  } else if (board[3] === currentPlayer && board[4] === currentPlayer && board[5] === currentPlayer) {
+    $('.message').html('Player ' + currentPlayer + ' wins!')
+    return true
+  } else if (board[6] === currentPlayer && board[7] === currentPlayer && board[8] === currentPlayer) {
+    $('.message').html('Player ' + currentPlayer + ' wins!')
+    return true
+  } else if (board[0] === currentPlayer && board[3] === currentPlayer && board[6] === currentPlayer) {
+    $('.message').html('Player ' + currentPlayer + ' wins!')
+    return true
+  } else if (board[1] === currentPlayer && board[4] === currentPlayer && board[7] === currentPlayer) {
+    $('.message').html('Player ' + currentPlayer + ' wins!')
+    return true
+  } else if (board[2] === currentPlayer && board[5] === currentPlayer && board[8] === currentPlayer) {
+    $('.message').html('Player ' + currentPlayer + ' wins!')
+    return true
+  } else if (board[0] === currentPlayer && board[4] === currentPlayer && board[8] === currentPlayer) {
+    $('.message').html('Player ' + currentPlayer + ' wins!')
+    return true
+  } else if (board[2] === currentPlayer && board[4] === currentPlayer && board[6] === currentPlayer) {
+    $('.message').html('Player ' + currentPlayer + ' wins!')
+    return true
+  } else {
+    return false
+  }
+}
+
 const onClick = function (event) {
   const content = event.originalEvent.target.innerText
   const id = event.originalEvent.target.id
@@ -36,6 +66,10 @@ const onClick = function (event) {
   if (content === '') {
     $('#' + id).html(currentPlayer)
     board[index] = currentPlayer
+    // Check victory condition
+    if (didIWin(currentPlayer)) {
+      return
+    }
     if (currentPlayer === 'X') {
       currentPlayer = 'O'
     } else if (currentPlayer === 'O') {
