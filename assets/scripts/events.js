@@ -70,6 +70,7 @@ const onClick = function (event) {
     if (didIWin(currentPlayer)) {
       return
     }
+    // Switch players
     if (currentPlayer === 'X') {
       currentPlayer = 'O'
     } else if (currentPlayer === 'O') {
@@ -79,7 +80,6 @@ const onClick = function (event) {
   } else {
     $('.message').html('That space is occupied')
   }
-console.log(board)
 }
 
 const addHandlers = function () {
