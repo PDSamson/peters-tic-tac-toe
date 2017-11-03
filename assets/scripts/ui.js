@@ -35,6 +35,14 @@ const changeFailure = function (error) {
   console.log(error)
 }
 
+const showSuccess = function (data) {
+  console.log(data)
+}
+
+const showFailure = function (error) {
+  console.log(error)
+}
+
 module.exports = {
   signUpSuccess,
   signUpFailure,
@@ -43,5 +51,7 @@ module.exports = {
   signOutSuccess,
   signOutFailure,
   changeSuccess,
-  changeFailure
+  changeFailure,
+  showSuccess,
+  showFailure
 }

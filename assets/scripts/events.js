@@ -121,11 +121,18 @@ const onChangePassword = function (event) {
     .catch(ui.changeFailure)
 }
 
-const onShowGames = function () {
+const onShowGames = function (event) {
   event.preventDefault()
   api.showGames()
     .then(ui.showSuccess)
     .catch(ui.showFailure)
+}
+
+const onCreateGames = function (event) {
+  event.preventDefault()
+  api.createGame()
+    .then(ui.createSuccess)
+    .catch(ui.createFailure)
 }
 
 const addHandlers = function () {
@@ -143,6 +150,7 @@ const addHandlers = function () {
   $('#sign-out').on('submit', onSignOut)
   $('#change-password').on('submit', onChangePassword)
   $('#show-games').on('submit', onShowGames)
+  $('#create-game').on('submit', onCreateGames)
 }
 
 module.exports = {
