@@ -1,5 +1,9 @@
 'use strict'
 
+const getFormFields = require('../../lib/get-form-fields')
+const api = require('./api')
+const ui = require('./ui')
+
 const board = ['', '', '', '', '', '', '', '', '']
 let currentPlayer = 'X'
 
@@ -59,8 +63,8 @@ const didIWin = function (currentPlayer) {
 }
 
 const onClick = function (event) {
-  const content = event.originalEvent.target.innerText
-  const id = event.originalEvent.target.id
+  const content = event.target.innerText
+  const id = event.target.id
   const index = setIndex(id)
   // Detect whether the spot is empty and post the correct symbol
   if (content === '') {
@@ -78,8 +82,50 @@ const onClick = function (event) {
     }
     $('.message').html('It is now ' + currentPlayer + '\'s turn')
   } else {
+    // Inform player if the space is occupied
     $('.message').html('That space is occupied')
   }
+}
+
+const onSignUp = function (event) {
+  const data = getFormFields(this)
+  console.log(data)
+  event.preventDefault()
+  api.signUp(data)
+    .then(ui.signUpSuccess)
+    .catch(ui.signUpFailure)
+}
+
+const onSignIn = function (event) {
+  const data = getFormFields(this)
+  console.log(data)
+  event.preventDefault()
+  api.signIn(data)
+    .then(ui.signInSuccess)
+    .catch(ui.signInFailure)
+}
+
+const onSignOut = function () {
+  event.preventDefault()
+  api.signOut()
+    .then(ui.signOutSuccess)
+    .catch(ui.signOutFailure)
+}
+
+const onChangePassword = function (event) {
+  const data = getFormFields(this)
+  console.log(data)
+  event.preventDefault()
+  api.changePassword(data)
+    .then(ui.changeSuccess)
+    .catch(ui.changeFailure)
+}
+
+const onShowGames = function () {
+  event.preventDefault()
+  api.showGames()
+    .then(ui.showSuccess)
+    .catch(ui.showFailure)
 }
 
 const addHandlers = function () {
@@ -92,8 +138,14 @@ const addHandlers = function () {
   $('#box6').click(onClick)
   $('#box7').click(onClick)
   $('#box8').click(onClick)
+  $('#sign-up').on('submit', onSignUp)
+  $('#sign-in').on('submit', onSignIn)
+  $('#sign-out').on('submit', onSignOut)
+  $('#change-password').on('submit', onChangePassword)
+  $('#show-games').on('submit', onShowGames)
 }
 
 module.exports = {
-  addHandlers
+  addHandlers,
+  currentPlayer
 }
