@@ -43,6 +43,23 @@ const showFailure = function (error) {
   console.log(error)
 }
 
+const createSuccess = function (data) {
+  store.game = data
+  console.log(data)
+}
+
+const createFailure = function () {
+  $('credential-message').text('Game creation failed')
+}
+
+const findSuccess = function (data) {
+  console.log(data)
+}
+
+const findFailure = function (data) {
+  console.log(data)
+}
+
 module.exports = {
   signUpSuccess,
   signUpFailure,
@@ -53,5 +70,9 @@ module.exports = {
   changeSuccess,
   changeFailure,
   showSuccess,
-  showFailure
+  showFailure,
+  createSuccess,
+  createFailure,
+  findSuccess,
+  findFailure
 }

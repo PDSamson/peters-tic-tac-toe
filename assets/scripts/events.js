@@ -3,6 +3,7 @@
 const getFormFields = require('../../lib/get-form-fields')
 const api = require('./api')
 const ui = require('./ui')
+const store = require('./store')
 
 const board = ['', '', '', '', '', '', '', '', '']
 let currentPlayer = 'X'
@@ -62,14 +63,26 @@ const didIWin = function (currentPlayer) {
   }
 }
 
+const updateGame = function (i) {
+  if (didIWin(currentPlayer)) {
+    store.gameState.game.over = true
+  }
+  store.gameState.game.cell.index = i
+  store.gameState.game.cell.value = currentPlayer
+  api.gameUpdate()
+    .then(ui.updateSuccess)
+    .catch(ui.updateFailure)
+}
+
 const onClick = function (event) {
   const content = event.target.innerText
   const id = event.target.id
   const index = setIndex(id)
   // Detect whether the spot is empty and post the correct symbol
-  if (content === '') {
+  if (content === '' && store.gameState.game.over === false) {
     $('#' + id).html(currentPlayer)
     board[index] = currentPlayer
+    updateGame(index)
     // Check victory condition
     if (didIWin(currentPlayer)) {
       return
@@ -135,6 +148,14 @@ const onCreateGames = function (event) {
     .catch(ui.createFailure)
 }
 
+const onFindGame = function (event) {
+  event.preventDefault()
+  api.findGame()
+    .then(ui.findSuccess)
+    .catch(ui.findFailure)
+  console.log(store)
+}
+
 const addHandlers = function () {
   $('#box0').click(onClick)
   $('#box1').click(onClick)
@@ -151,6 +172,7 @@ const addHandlers = function () {
   $('#change-password').on('submit', onChangePassword)
   $('#show-games').on('submit', onShowGames)
   $('#create-game').on('submit', onCreateGames)
+  $('#find-game').on('submit', onFindGame)
 }
 
 module.exports = {

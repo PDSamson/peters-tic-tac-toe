@@ -49,10 +49,44 @@ const showGames = function () {
   })
 }
 
+const createGame = function () {
+  return $.ajax({
+    url: config.apiOrigin + '/games',
+    method: 'POST',
+    headers: {
+      Authorization: 'Token token=' + store.user.user.token
+    }
+  })
+}
+
+const findGame = function () {
+  return $.ajax({
+    url: config.apiOrigin + '/games/' + store.game.game.id,
+    method: 'GET',
+    headers: {
+      Authorization: 'Token token=' + store.user.user.token
+    }
+  })
+}
+
+const gameUpdate = function () {
+  return $.ajax({
+    url: config.apiOrigin + '/games/' + store.game.game.id,
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + store.user.user.token
+    },
+    data: store.gameState
+  })
+}
+
 module.exports = {
   signUp,
   signIn,
   signOut,
   changePassword,
-  showGames
+  showGames,
+  createGame,
+  findGame,
+  gameUpdate
 }
