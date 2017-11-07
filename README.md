@@ -41,3 +41,8 @@ Wireframe
 ---------
 
 ![Alt text](https://i.imgur.com/OrrfaQ6.jpg)
+
+Future Features
+---------------
+
+* Two players on separate machines playing against one another

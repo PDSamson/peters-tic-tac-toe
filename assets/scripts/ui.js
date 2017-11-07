@@ -40,8 +40,8 @@ const signUpFailure = function () {
 }
 
 const signInSuccess = function (data) {
-  $('.game-page').show()
-  $('.sign-in-page').hide()
+  $('.sign-in-page').hide(100)
+  $('.game-page').show(200)
   $('#feedback-message').text('Sign-in Success')
   store.user = data
 }
@@ -52,8 +52,8 @@ const signInFailure = function () {
 
 const signOutSuccess = function () {
   $('#feedback-message').text('Sign out Success')
-  $('.game-page').hide()
-  $('.sign-in-page').show()
+  $('.game-page').hide(100)
+  $('.sign-in-page').show(200)
   store.user = null
 }
 const signOutFailure = function () {
@@ -64,9 +64,8 @@ const changeSuccess = function () {
   $('#feedback-message').text('Password change successful')
 }
 
-const changeFailure = function (error) {
+const changeFailure = function () {
   $('#feedback-message').text('Password change failed')
-  console.log(error)
 }
 
 const showSuccess = function (data) {
@@ -83,7 +82,6 @@ const showSuccess = function (data) {
       losses++
     }
   }
-  console.log('Wins: ' + wins + '<br>Losses: ' + losses + '<br>Draws: ' + draws)
   $('.message').html('Wins: ' + wins + '<br>Losses: ' + losses + '<br>Draws: ' + draws)
 }
 
@@ -108,6 +106,14 @@ const findFailure = function (data) {
   $('#feedback-message').text('Game not found')
 }
 
+const updateSuccess = function () {
+  $('#feedback-message').text('Game updated')
+}
+
+const updateFailure = function () {
+  $('#feedback-message').text('Game not updated')
+}
+
 module.exports = {
   didIWin,
   signUpSuccess,
@@ -123,5 +129,7 @@ module.exports = {
   createSuccess,
   createFailure,
   findSuccess,
-  findFailure
+  findFailure,
+  updateSuccess,
+  updateFailure
 }

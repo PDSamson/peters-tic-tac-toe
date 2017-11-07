@@ -1,1 +1,24 @@
 $black: #000;
+$maroon: #800000;
+$blue: #008080;
+$white: #fff;
+$lightblue: #add8e6;
+$red: #c30000;
+
+body {
+  background-color: $lightblue;
+}
+
+.btn {
+  background-color: $red;
+  color: $white;
+}
+
+.box {
+  background-color: $blue;
+  color: $white;
+}
+
+.box:hover {
+  background-color: $maroon;
+}

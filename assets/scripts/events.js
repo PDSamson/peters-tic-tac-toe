@@ -139,6 +139,8 @@ const onCreatNewGame = function (event) {
 const onSignOut = function (event) {
   event.preventDefault()
   store.gameState.game.over = true
+  store.gameState.game.cell.index = null
+  store.gameState.game.cell.value = null
   updateGame()
   api.signOut()
     .then(ui.signOutSuccess)
