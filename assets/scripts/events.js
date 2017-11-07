@@ -45,7 +45,6 @@ const updateGame = function (i) {
 }
 
 const onClick = function (event) {
-  console.log(event)
   const content = event.target.innerText
   const id = event.target.id
   const index = setIndex(id)
@@ -98,16 +97,8 @@ const onSignIn = function (event) {
     .catch(ui.signInFailure)
 }
 
-const onSignOut = function () {
-  event.preventDefault()
-  api.signOut()
-    .then(ui.signOutSuccess)
-    .catch(ui.signOutFailure)
-}
-
 const onChangePassword = function (event) {
   const data = getFormFields(this)
-  console.log(data)
   event.preventDefault()
   api.changePassword(data)
     .then(ui.changeSuccess)
@@ -126,20 +117,31 @@ const onFindGame = function (event) {
   api.findGame()
     .then(ui.findSuccess)
     .catch(ui.findFailure)
-  console.log(store)
 }
 
-const onCreatNewGame = function (event) {
-  event.preventDefault()
+const wipeGame = function () {
   for (let i = 0; i < board.length; i++) {
     $('#box' + i).html('')
     board[i] = ''
   }
   store.game = null
   store.gameState.game.over = false
+}
+
+const onCreatNewGame = function (event) {
+  event.preventDefault()
+  wipeGame()
   api.createGame()
     .then(ui.createSuccess)
     .catch(ui.createFailure)
+}
+
+const onSignOut = function (event) {
+  event.preventDefault()
+  api.signOut()
+    .then(ui.signOutSuccess)
+    .then(wipeGame())
+    .catch(ui.signOutFailure)
 }
 
 const addHandlers = function () {

@@ -1,14 +1,6 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
-$black: #000;
 
-.box {
-  border: 1px solid $black;
-  font-size: 130px;
-  height: 150px;
-  text-align: center;
-}
-
-.container {
-  max-width: 50%;
-}
+@import 'color';
+@import 'typography';
+@import 'theme';

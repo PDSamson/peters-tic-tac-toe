@@ -32,38 +32,40 @@ const didIWin = function (currentPlayer, gameBoard) {
 }
 
 const signUpSuccess = function () {
-  $('#credential-message').text('Sign-up Successful')
+  $('#feedback-message').text('Sign-up Successful')
 }
 
 const signUpFailure = function () {
-  $('#credential-message').text('Sign-up Failure')
+  $('#feedback-message').text('Sign-up Failure')
 }
 
 const signInSuccess = function (data) {
   $('.game-page').show()
   $('.sign-in-page').hide()
-  $('#credential-message').text('Sign-in Success')
+  $('#feedback-message').text('Sign-in Success')
   store.user = data
 }
 
 const signInFailure = function () {
-  $('#credential-message').text('Sign-in Failure')
+  $('#feedback-message').text('Sign-in Failure')
 }
 
 const signOutSuccess = function () {
-  $('#credential-message').text('Sign out Success')
+  $('#feedback-message').text('Sign out Success')
+  $('.game-page').hide()
+  $('.sign-in-page').show()
   store.user = null
 }
 const signOutFailure = function () {
-  $('#credential-message').text('Sign-out Failure')
+  $('#feedback-message').text('Sign-out Failure')
 }
 
 const changeSuccess = function () {
-  $('#credential-message').text('Password change successful')
+  $('#feedback-message').text('Password change successful')
 }
 
 const changeFailure = function (error) {
-  $('#credential-message').text('Password change failed')
+  $('#feedback-message').text('Password change failed')
   console.log(error)
 }
 
@@ -85,24 +87,25 @@ const showSuccess = function (data) {
   $('.message').html('Wins: ' + wins + '<br>Losses: ' + losses + '<br>Draws: ' + draws)
 }
 
-const showFailure = function (error) {
-  console.log(error)
+const showFailure = function () {
+  $('#feedback-message').text('Games could not be retrieved')
 }
 
 const createSuccess = function (data) {
+  $('.message').text('Game Created')
   store.game = data
 }
 
 const createFailure = function () {
-  $('credential-message').text('Game creation failed')
+  $('.message').text('Game creation failed')
 }
 
-const findSuccess = function (data) {
-  console.log(data)
+const findSuccess = function () {
+  $('#feedback-message').text('Game found')
 }
 
 const findFailure = function (data) {
-  console.log(data)
+  $('#feedback-message').text('Game not found')
 }
 
 module.exports = {
