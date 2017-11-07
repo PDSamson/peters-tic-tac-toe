@@ -8,6 +8,8 @@ $(() => {
   setAPIOrigin(location, config)
 })
 
+$('.game-page').hide()
+
 $(() => {
   events.addHandlers()
 })

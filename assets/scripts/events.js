@@ -33,38 +33,8 @@ const setIndex = function (id) {
   return index
 }
 
-const didIWin = function (currentPlayer) {
-  if (board[0] === currentPlayer && board[1] === currentPlayer && board[2] === currentPlayer) {
-    $('.message').html('Player ' + currentPlayer + ' wins!')
-    return true
-  } else if (board[3] === currentPlayer && board[4] === currentPlayer && board[5] === currentPlayer) {
-    $('.message').html('Player ' + currentPlayer + ' wins!')
-    return true
-  } else if (board[6] === currentPlayer && board[7] === currentPlayer && board[8] === currentPlayer) {
-    $('.message').html('Player ' + currentPlayer + ' wins!')
-    return true
-  } else if (board[0] === currentPlayer && board[3] === currentPlayer && board[6] === currentPlayer) {
-    $('.message').html('Player ' + currentPlayer + ' wins!')
-    return true
-  } else if (board[1] === currentPlayer && board[4] === currentPlayer && board[7] === currentPlayer) {
-    $('.message').html('Player ' + currentPlayer + ' wins!')
-    return true
-  } else if (board[2] === currentPlayer && board[5] === currentPlayer && board[8] === currentPlayer) {
-    $('.message').html('Player ' + currentPlayer + ' wins!')
-    return true
-  } else if (board[0] === currentPlayer && board[4] === currentPlayer && board[8] === currentPlayer) {
-    $('.message').html('Player ' + currentPlayer + ' wins!')
-    return true
-  } else if (board[2] === currentPlayer && board[4] === currentPlayer && board[6] === currentPlayer) {
-    $('.message').html('Player ' + currentPlayer + ' wins!')
-    return true
-  } else {
-    return false
-  }
-}
-
 const updateGame = function (i) {
-  if (didIWin(currentPlayer)) {
+  if (ui.didIWin(currentPlayer, board) || board.every((element) => element !== '')) {
     store.gameState.game.over = true
   }
   store.gameState.game.cell.index = i
@@ -75,16 +45,20 @@ const updateGame = function (i) {
 }
 
 const onClick = function (event) {
+  console.log(event)
   const content = event.target.innerText
   const id = event.target.id
   const index = setIndex(id)
-  // Detect whether the spot is empty and post the correct symbol
   if (content === '' && store.gameState.game.over === false) {
     $('#' + id).html(currentPlayer)
     board[index] = currentPlayer
     updateGame(index)
     // Check victory condition
-    if (didIWin(currentPlayer)) {
+    if (ui.didIWin(currentPlayer, board)) {
+      return
+    }
+    if (board.every((element) => element !== '')) {
+      $('.message').html('The game is a tie')
       return
     }
     // Switch players
@@ -94,6 +68,9 @@ const onClick = function (event) {
       currentPlayer = 'X'
     }
     $('.message').html('It is now ' + currentPlayer + '\'s turn')
+    // Prevent further moves if the game is over
+  } else if (store.gameState.game.over === true) {
+    $('.message').html('The game is over')
   } else {
     // Inform player if the space is occupied
     $('.message').html('That space is occupied')
@@ -111,10 +88,13 @@ const onSignUp = function (event) {
 
 const onSignIn = function (event) {
   const data = getFormFields(this)
-  console.log(data)
   event.preventDefault()
   api.signIn(data)
     .then(ui.signInSuccess)
+    .then(() => {
+      return api.createGame()
+    })
+    .then(ui.createSuccess)
     .catch(ui.signInFailure)
 }
 
@@ -141,13 +121,6 @@ const onShowGames = function (event) {
     .catch(ui.showFailure)
 }
 
-const onCreateGames = function (event) {
-  event.preventDefault()
-  api.createGame()
-    .then(ui.createSuccess)
-    .catch(ui.createFailure)
-}
-
 const onFindGame = function (event) {
   event.preventDefault()
   api.findGame()
@@ -156,23 +129,28 @@ const onFindGame = function (event) {
   console.log(store)
 }
 
+const onCreatNewGame = function (event) {
+  event.preventDefault()
+  for (let i = 0; i < board.length; i++) {
+    $('#box' + i).html('')
+    board[i] = ''
+  }
+  store.game = null
+  store.gameState.game.over = false
+  api.createGame()
+    .then(ui.createSuccess)
+    .catch(ui.createFailure)
+}
+
 const addHandlers = function () {
-  $('#box0').click(onClick)
-  $('#box1').click(onClick)
-  $('#box2').click(onClick)
-  $('#box3').click(onClick)
-  $('#box4').click(onClick)
-  $('#box5').click(onClick)
-  $('#box6').click(onClick)
-  $('#box7').click(onClick)
-  $('#box8').click(onClick)
+  $('.box').click(onClick)
   $('#sign-up').on('submit', onSignUp)
   $('#sign-in').on('submit', onSignIn)
   $('#sign-out').on('submit', onSignOut)
   $('#change-password').on('submit', onChangePassword)
   $('#show-games').on('submit', onShowGames)
-  $('#create-game').on('submit', onCreateGames)
   $('#find-game').on('submit', onFindGame)
+  $('#new-game').on('submit', onCreatNewGame)
 }
 
 module.exports = {
