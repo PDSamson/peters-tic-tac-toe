@@ -43,7 +43,7 @@ const signInSuccess = function (data) {
   $('.sign-in-page').hide(100)
   $('.game-page').show(200)
   $('#feedback-message').text('Sign-in Success')
-  store.user = data
+  store.user = data.user
 }
 
 const signInFailure = function () {
@@ -91,7 +91,7 @@ const showFailure = function () {
 
 const createSuccess = function (data) {
   $('.message').text('Game Created')
-  store.game = data
+  store.game = data.game
 }
 
 const createFailure = function () {
@@ -99,7 +99,7 @@ const createFailure = function () {
 }
 
 const findSuccess = function () {
-  $('#feedback-message').text('Game found')
+  $('#feedback-message').text('Your game is ' + store.game.id)
 }
 
 const findFailure = function (data) {
