@@ -78,7 +78,6 @@ const onClick = function (event) {
 
 const onSignUp = function (event) {
   const data = getFormFields(this)
-  console.log(data)
   event.preventDefault()
   api.signUp(data)
     .then(ui.signUpSuccess)
