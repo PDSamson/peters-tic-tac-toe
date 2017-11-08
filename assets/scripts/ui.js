@@ -76,7 +76,7 @@ const showSuccess = function (data) {
     const board = data.games[i].cells
     if (didIWin('X', board)) {
       wins++
-    } else if (board.every((element) => element !== '')) {
+    } else if (board.every((element) => element !== '') && didIWin('O', board) === false) {
       draws++
     } else {
       losses++
@@ -98,8 +98,8 @@ const createFailure = function () {
   $('.message').text('Game creation failed')
 }
 
-const findSuccess = function () {
-  $('#feedback-message').text('Your game is ' + store.game.id)
+const findSuccess = function (data) {
+  $('#feedback-message').text('Your game is ' + data.game.id)
 }
 
 const findFailure = function (data) {
